@@ -28,5 +28,6 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 
 include(
+    ":data",
     ":domain"
 )
