@@ -2,7 +2,7 @@ package com.ab21.data.network.extensions
 
 import arrow.core.Either
 import com.ab21.data.network.model.toDomain
-import com.ab21.domain.errors.Error.NetworkError
+import com.ab21.core.errors.Error.NetworkError
 import retrofit2.Response
 import java.net.HttpURLConnection
 

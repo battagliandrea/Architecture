@@ -6,7 +6,7 @@ import com.ab21.data.env.Environment
 import com.ab21.data.network.extensions.enqueueResponse
 import com.ab21.data.network.model.toDomain
 import com.ab21.data.network.service.PokeApi
-import com.ab21.domain.errors.Error.NetworkError
+import com.ab21.core.errors.Error.NetworkError
 import com.ab21.domain.model.PagingSource
 import com.ab21.domain.model.Pokemon
 import javax.inject.Inject

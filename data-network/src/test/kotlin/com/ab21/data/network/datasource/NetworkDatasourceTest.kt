@@ -4,7 +4,7 @@ import com.ab21.data.datasource.INetworkDatasource
 import com.ab21.data.env.Environment
 import com.ab21.data.network.extensions.enqueueResponse
 import com.ab21.data.network.service.PokeApi
-import com.ab21.domain.errors.Error.NetworkError
+import com.ab21.core.errors.Error.NetworkError
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight

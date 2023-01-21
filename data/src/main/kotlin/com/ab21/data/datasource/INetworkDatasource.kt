@@ -1,7 +1,7 @@
 package com.ab21.data.datasource
 
 import arrow.core.Either
-import com.ab21.domain.errors.Error
+import com.ab21.core.errors.Error
 import com.ab21.domain.model.PagingSource
 import com.ab21.domain.model.Pokemon
 

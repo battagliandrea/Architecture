@@ -28,6 +28,9 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 
 include(
+    ":core",
     ":data",
+    ":data-network",
+    ":data-network-env",
     ":domain"
 )
