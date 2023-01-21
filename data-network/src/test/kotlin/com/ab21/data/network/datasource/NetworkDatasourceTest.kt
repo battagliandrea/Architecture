@@ -1,7 +1,7 @@
 package com.ab21.data.network.datasource
 
 import com.ab21.data.datasource.INetworkDatasource
-import com.ab21.data.env.Environment
+import com.ab21.data.network.env.Environment
 import com.ab21.data.network.extensions.enqueueResponse
 import com.ab21.data.network.service.PokeApi
 import com.ab21.core.errors.Error.NetworkError

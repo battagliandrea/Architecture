@@ -1,7 +1,7 @@
 package com.ab21.data.network.env.di
 
 import com.ab21.core.annotations.Flavor
-import com.ab21.data.env.Environment
+import com.ab21.data.network.env.Environment
 import com.ab21.data.network.env.BuildConfig
 import com.ab21.data.network.env.Environments
 import dagger.Module

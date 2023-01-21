@@ -1,4 +1,4 @@
-package com.ab21.data.env
+package com.ab21.data.network.env
 
 interface Environment {
 

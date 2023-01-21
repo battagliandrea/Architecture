@@ -1,7 +1,5 @@
 package com.ab21.data.network.env
 
-import com.ab21.data.env.Environment
-
 object Environments {
 
     private const val KEY_FLAVOR_PROD = "production"
