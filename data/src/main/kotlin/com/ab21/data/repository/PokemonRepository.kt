@@ -11,10 +11,9 @@ import javax.inject.Inject
 
 
 internal class PokemonRepository @Inject constructor(
-    private val networkSource: INetworkDatasource,
-    private val cache: ICacheDatasource<Pokemon>,
+    private val networkDatasource: INetworkDatasource,
+    private val cache: ICacheDatasource,
 ) : IPokemonRepository {
-
     override suspend fun getPokemon(
         cachePolicy: CachePolicy,
         nextPage: Boolean,
