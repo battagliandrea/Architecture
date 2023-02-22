@@ -2,12 +2,14 @@
 plugins {
     `java-library`
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 dependencies {
     implementation(libs.arrow.core)
     implementation(libs.javax.inject)
     implementation(libs.kotlin)
+    implementation(libs.kotlin.serialization)
     implementation(libs.kotlin.coroutines.core)
 
     testImplementation(libs.junit)

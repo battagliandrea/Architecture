@@ -1,5 +1,7 @@
 package com.ab21.domain.model
 
+import kotlinx.serialization.Serializable
+@Serializable
 data class Pokemon(
     val id: Int,
     val name: String,
@@ -12,7 +14,7 @@ data class Pokemon(
     val image: String = "",
     val isCaught: Boolean = false
 ) {
-
+   @Serializable
     data class Stat(
         val base: Float = 0f,
         val name: String = ""

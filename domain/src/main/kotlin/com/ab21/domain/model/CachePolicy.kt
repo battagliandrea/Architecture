@@ -26,7 +26,7 @@ data class CachePolicy(
         CLEAR,
 
         /**
-         * Expire this cache line and refresh if older than expires
+         * Refresh if older than expires
          */
         EXPIRES
     }
