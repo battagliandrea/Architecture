@@ -17,8 +17,8 @@ object Configs {
     val VersionCode = generateVersionCode()
     val VersionName = generateVersionName()
     const val MinSdk = 23
-    const val TargetSdk = 32
-    const val CompileSdk = 32
+    const val TargetSdk = 33
+    const val CompileSdk = 33
     const val AndroidJunitRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     val FreeCompilerArgs = listOf(
