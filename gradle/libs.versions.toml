@@ -18,7 +18,7 @@ junit = "4.13.2"
 kotlin = "1.7.20"
 kotlin-coroutines = "1.6.4"
 kotlin-serialization = "1.4.1"
-mockk = "1.13.2"
+mockk = "1.13.4"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
 retrofit-serialization = "0.8.0"
@@ -56,6 +56,7 @@ kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-te
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-jvm = { module = "io.mockk:mockk-agent-jvm", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp"}
 okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp"}
 okhttp-mock = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp"}
