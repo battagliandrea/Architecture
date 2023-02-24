@@ -1,30 +1,31 @@
 package com.ab21.data.network.extensions
 
-import arrow.core.Either
-import com.ab21.data.network.model.toDomain
-import com.ab21.core.errors.Error.NetworkError
+import com.ab21.domain.model.AppError.Json
+import com.ab21.domain.model.AppError.Remote
+import com.ab21.domain.model.Result
+import com.ab21.domain.model.leftResult
+import com.ab21.domain.model.rightResult
 import retrofit2.Response
-import java.net.HttpURLConnection
 
-suspend fun <DTO, MODEL> enqueueResponse(call: suspend () -> Response<DTO>, mapper: (body: DTO?) -> MODEL): Either<NetworkError, MODEL> =
+suspend fun <DTO, MODEL> enqueueResponse(call: suspend () -> Response<DTO>, mapper: (body: DTO?) -> MODEL): Result<MODEL> =
     try {
         val response = call.invoke()
         if(response.isSuccessful){
-            Either.Right(mapper.invoke(response.body()))
+            mapper.invoke(response.body()).rightResult()
         } else {
-            Either.Left(response.toError())
+            response.toError().leftResult()
         }
     } catch (e: Exception){
         when (e) {
-            is IllegalArgumentException -> Either.Left(NetworkError.MalformedJson)
-            else -> Either.Left(NetworkError.Unknown)
-        }
+            is IllegalArgumentException -> Json.DecodingError(e)
+            else -> Remote.NetworkError(e)
+        }.leftResult()
     }
 
 
 fun <T>Response<T>.toError() =
-    when(this.code()) {
-        HttpURLConnection.HTTP_NOT_FOUND -> NetworkError.NotFound
-        HttpURLConnection.HTTP_INTERNAL_ERROR -> NetworkError.InternalError
-        else -> NetworkError.Unknown
-    }
+    Remote.ServerError(
+        errorMessage = this.message(),
+        statusCode = this.code()
+    )
+

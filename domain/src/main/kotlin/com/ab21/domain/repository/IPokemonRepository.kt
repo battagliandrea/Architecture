@@ -1,10 +1,9 @@
 package com.ab21.domain.repository
 
 import com.ab21.domain.model.CachePolicy
-import com.ab21.domain.model.DomainResult
+import com.ab21.domain.model.Result
 import com.ab21.domain.model.PagingSource
 import com.ab21.domain.model.Pokemon
-import kotlinx.coroutines.flow.Flow
 
 interface IPokemonRepository {
 
@@ -20,7 +19,7 @@ interface IPokemonRepository {
      * @see Pokemon
      * @see CachePolicy
      */
-    suspend fun getPokemon(cachePolicy: CachePolicy, nextPage: Boolean, limit: Int = 50): DomainResult<PagingSource<Pokemon>>
+    suspend fun getPokemon(cachePolicy: CachePolicy, nextPage: Boolean, limit: Int = 50): Result<PagingSource<Pokemon>>
 
     /**
      * This method returns a detail of pokemon objects
@@ -33,5 +32,5 @@ interface IPokemonRepository {
      * @see Pokemon
      * @see CachePolicy
      */
-    suspend fun getPokemon(cachePolicy: CachePolicy, id: Int): DomainResult<Pokemon>
+    suspend fun getPokemon(cachePolicy: CachePolicy, id: Int): Result<Pokemon>
 }

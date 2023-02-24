@@ -1,4 +1,4 @@
-package com.ab21.domain.model
+package com.ab21.core.model
 
 import arrow.core.Either
 import arrow.core.Either.Right
@@ -6,7 +6,11 @@ import arrow.core.Either.Left
 
 sealed class AppError(cause: Throwable?) : Throwable(cause) {
 
+  /*
+   + Errors related to remote datasource
+   */
   sealed class Remote(cause: Throwable?) : AppError(cause) {
+
     data class NetworkError(override val cause: Throwable) : Remote(cause)
 
     data class ServerError(
@@ -14,13 +18,27 @@ sealed class AppError(cause: Throwable?) : Throwable(cause) {
       val statusCode: Int,
       override val cause: Throwable? = null,
     ) : Remote(cause)
-
   }
 
-  sealed class Local(cause: Throwable?) : AppError(cause) {
-    data class DatabaseError(override val cause: Throwable) : AppError(cause)
+  /*
+   + Errors related to json
+   */
+  sealed class Json(cause: Throwable?) : AppError(cause) {
+    data class DecodingError(override val cause: Throwable) : AppError(cause)
   }
 
+  /*
+   + Errors related to cache datasource
+   */
+  sealed class Cache(cause: Throwable?) : AppError(cause) {
+    data class ReadingError(override val cause: Throwable) : AppError(cause)
+    data class WritingError(override val cause: Throwable) : AppError(cause)
+    data class DeletingError(override val cause: Throwable) : AppError(cause)
+  }
+
+  /*
+   + Unexpected errors
+   */
   data class UnexpectedError(
     val errorMessage: String,
     override val cause: Throwable,
@@ -28,7 +46,7 @@ sealed class AppError(cause: Throwable?) : Throwable(cause) {
 }
 
 typealias Option<T> = Either<Unit, T>
-typealias DomainResult<T> = Either<AppError, T>
+typealias Result<T> = Either<AppError, T>
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun <T> T?.toOption(): Option<T> = this?.let { Right(it) } ?: Left(Unit)

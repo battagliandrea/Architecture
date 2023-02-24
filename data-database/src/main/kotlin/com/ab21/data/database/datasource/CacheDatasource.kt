@@ -1,59 +1,54 @@
 package com.ab21.data.database.datasource
 
-import arrow.core.Either
-import com.ab21.core.errors.Error.DatabaseError
 import com.ab21.data.database.dao.CacheDatabase
 import com.ab21.data.database.model.CacheItem
 import com.ab21.data.datasource.ICacheDatasource
-import kotlinx.serialization.ExperimentalSerializationApi
+import com.ab21.domain.model.Result
+import com.ab21.domain.model.leftResult
+import com.ab21.domain.model.rightResult
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import com.ab21.domain.model.AppError.Cache
 
 class CacheDatasource @Inject constructor(
     private val database: CacheDatabase,
 ) : ICacheDatasource {
 
-    override suspend fun <T : Any> get(key: String, serializer: KSerializer<T>): Either<DatabaseError, T> =
+    override suspend fun <T : Any> get(key: String, serializer: KSerializer<T>): Result<T> =
         try {
-            val query = database.cacheItemDao().findByKey(key)
-            val data = Json.decodeFromString(serializer, query.data)
-            Either.Right(data)
+            database.cacheItemDao().findByKey(key)
+                .let { query -> Json.decodeFromString(serializer, query.data) }
+                .rightResult()
         } catch (e: Exception){
-            e.printStackTrace()
-            Either.Left(DatabaseError.ReadingError)
+            Cache.ReadingError(e).leftResult()
         }
 
-    override suspend fun <T : Any> set(key: String, data: T, serializer: KSerializer<T>): Either<DatabaseError, Boolean> =
+    override suspend fun <T : Any> set(key: String, data: T, serializer: KSerializer<T>): Result<Boolean> =
         try {
-            val json = Json.encodeToString(serializer, data)
-            set(key, json)
+            CacheItem(key = key, data= Json.encodeToString(serializer, data), ttl = CacheItem.getShortTTl())
+                .let{ cacheItem -> database.cacheItemDao().insert(cacheItem) }
+                .let { result -> result > 0 }
+                .rightResult()
         } catch (e: Exception){
-            e.printStackTrace()
-            Either.Left(DatabaseError.WritingError)
+            Cache.WritingError(e).leftResult()
         }
 
-    private suspend fun set(key: String, json: String) = run {
-        val cacheItem = CacheItem(key = key, data= json, ttl = CacheItem.getShortTTl())
-        val result = database.cacheItemDao().insert(cacheItem)
-        Either.Right(result > 0)
-    }
-
-    override suspend fun remove(key: String): Either<DatabaseError, Boolean> =
+    override suspend fun remove(key: String): Result<Boolean> =
         try {
-            val query = database.cacheItemDao().deleteById(key)
-            Either.Right(query > 0)
+            database.cacheItemDao().deleteById(key)
+                .let{ query -> query > 0}
+                .rightResult()
         } catch (e: Exception){
-            e.printStackTrace()
-            Either.Left(DatabaseError.DeletingError)
+            Cache.DeletingError(e).leftResult()
         }
 
-    override suspend fun clear(): Either<DatabaseError, Boolean> =
+    override suspend fun clear(): Result<Boolean> =
         try {
-            val query = database.cacheItemDao().clear()
-            Either.Right(query > 0)
+            database.cacheItemDao().clear()
+                .let{ query -> query > 0}
+                .rightResult()
         } catch (e: Exception){
-            e.printStackTrace()
-            Either.Left(DatabaseError.DeletingError)
+            Cache.DeletingError(e).leftResult()
         }
 }

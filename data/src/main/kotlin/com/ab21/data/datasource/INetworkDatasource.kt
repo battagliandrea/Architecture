@@ -1,7 +1,6 @@
 package com.ab21.data.datasource
 
-import arrow.core.Either
-import com.ab21.core.errors.Error
+import com.ab21.core.model.Result
 import com.ab21.domain.model.PagingSource
 import com.ab21.domain.model.Pokemon
 
@@ -14,7 +13,7 @@ interface INetworkDatasource {
      * @param limit maximum limit of available object per page. Default 50
      * @return a list of pokemon objects
      */
-    suspend fun pokemon(limit: Int, offset: Int): Either<Error.NetworkError, PagingSource<Pokemon>>
+    suspend fun pokemon(limit: Int, offset: Int): Result<PagingSource<Pokemon>>
 
     /**
      * This method returns a detail of pokemon objects
@@ -22,5 +21,5 @@ interface INetworkDatasource {
      * @param id The pokemon unique identifier
      * @return a pokemon object
      */
-    suspend fun pokemon(id: Int): Either<Error.NetworkError, Pokemon>
+    suspend fun pokemon(id: Int): Result<Pokemon>
 }

@@ -1,6 +1,6 @@
 package com.ab21.data.datasource
 
-import com.ab21.core.errors.Error.DatabaseError
+import com.ab21.core.model.AppError
 import com.ab21.data.database.dao.CacheDatabase
 import com.ab21.data.database.datasource.CacheDatasource
 import com.ab21.data.model.ResourcesUtils
@@ -9,6 +9,7 @@ import com.ab21.data.model.TestModelWithGeneric
 import com.ab21.data.model.TestModels
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -52,7 +53,9 @@ internal class CacheDatasourceTest {
 
         coEvery { database.cacheItemDao().findByKey(key) } returns cacheItem
 
-        cacheDatasource.get(key= key, serializer= serializer).shouldBeLeft(DatabaseError.ReadingError)
+        cacheDatasource.get(key= key, serializer= serializer)
+            .shouldBeLeft()
+            .shouldBeTypeOf<AppError.Cache.ReadingError>()
     }
 
     @Test
@@ -70,7 +73,9 @@ internal class CacheDatasourceTest {
 
         coEvery { database.cacheItemDao().insert(any()) } throws RuntimeException("Writing Error")
 
-        cacheDatasource.set(key = "key", data = data, serializer = serializer).shouldBeLeft(DatabaseError.WritingError)
+        cacheDatasource.set(key = "key", data = data, serializer = serializer)
+            .shouldBeLeft()
+            .shouldBeTypeOf<AppError.Cache.WritingError>()
     }
 
     @Test
