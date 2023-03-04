@@ -1,7 +1,7 @@
 package com.ab21.domain.repository
 
-import com.ab21.domain.model.CachePolicy
-import com.ab21.domain.model.Result
+import com.ab21.core.model.Result
+import com.ab21.domain.CachePolicy
 import com.ab21.domain.model.PagingSource
 import com.ab21.domain.model.Pokemon
 

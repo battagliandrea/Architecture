@@ -12,7 +12,7 @@ interface ICacheDatasource {
      * @param serializer the KSerializer to deserialize the generic object
      * @return an either with the deserialized object
      */
-    suspend fun <T : Any> get(key: String, serializer: KSerializer<T>): Result<T>
+    suspend fun <T : Any> get(key: String, serializer: KSerializer<T>): Result<T?>
 
     /**
      * This method serialize and write the object into cache and return a value with the result

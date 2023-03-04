@@ -1,6 +1,7 @@
 package com.ab21.data.repository
 
-import com.ab21.data.cache.CachePolicy
+import com.ab21.core.model.Result
+import com.ab21.domain.CachePolicy
 import com.ab21.data.datasource.ICacheDatasource
 import com.ab21.data.datasource.INetworkDatasource
 import com.ab21.domain.model.PagingSource
@@ -10,44 +11,25 @@ import javax.inject.Inject
 
 internal class PokemonRepository @Inject constructor(
     private val networkDatasource: INetworkDatasource,
-    private val cache: ICacheDatasource,
+    private val cacheDatasource: ICacheDatasource,
 ) : IPokemonRepository {
 
     companion object {
         const val REPOSITORY_ID: String = "PokemonRepository"
-        const val LIMIT: Int = 50
     }
+
+    private val offset = 0
+    private val pagingSerializer by lazy { PagingSource.serializer(Pokemon.serializer()) }
 
     override suspend fun getPokemon(
         cachePolicy: CachePolicy,
         nextPage: Boolean,
         limit: Int
-    ): Result<PagingSource<Pokemon>> {
-        /*when(cachePolicy.type){
-            NEVER -> {
-                networkDatasource.pokemon(limit= LIMIT, offset = 0)
-            }
-            ALWAYS -> {
-                networkDatasource.pokemon(limit = LIMIT, offset = 0)
-                    .map { page ->
-                        cache.set(key = REPOSITORY_ID + LIMIT, data = page, clazz = PagingSource::class.java)
-                        return@map page
-                    }
-            }
-            REFRESH -> {
+    ): Result<PagingSource<Pokemon>> =
+        networkDatasource.pokemon(limit= limit, offset = 0)
 
-            }
-            CLEAR -> {
-
-            }
-            EXPIRES -> {
-
-            }
-        }*/
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getPokemon(cachePolicy: CachePolicy, id: Int): Result<Pokemon> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getPokemon(
+        cachePolicy: CachePolicy,
+        id: Int
+    ): Result<Pokemon> = networkDatasource.pokemon(id)
 }

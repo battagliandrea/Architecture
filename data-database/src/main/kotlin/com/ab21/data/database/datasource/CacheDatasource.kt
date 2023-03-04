@@ -1,24 +1,24 @@
 package com.ab21.data.database.datasource
 
+import com.ab21.core.model.AppError.Cache
+import com.ab21.core.model.Result
+import com.ab21.core.model.leftResult
+import com.ab21.core.model.rightResult
 import com.ab21.data.database.dao.CacheDatabase
 import com.ab21.data.database.model.CacheItem
 import com.ab21.data.datasource.ICacheDatasource
-import com.ab21.domain.model.Result
-import com.ab21.domain.model.leftResult
-import com.ab21.domain.model.rightResult
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
-import com.ab21.domain.model.AppError.Cache
 
 class CacheDatasource @Inject constructor(
     private val database: CacheDatabase,
 ) : ICacheDatasource {
 
-    override suspend fun <T : Any> get(key: String, serializer: KSerializer<T>): Result<T> =
+    override suspend fun <T : Any> get(key: String, serializer: KSerializer<T>): Result<T?> =
         try {
             database.cacheItemDao().findByKey(key)
-                .let { query -> Json.decodeFromString(serializer, query.data) }
+                ?.let { query -> Json.decodeFromString(serializer, query.data) }
                 .rightResult()
         } catch (e: Exception){
             Cache.ReadingError(e).leftResult()

@@ -1,4 +1,4 @@
-package com.ab21.data.cache
+package com.ab21.domain
 
 data class CachePolicy(
     val type: Type = Type.ALWAYS,

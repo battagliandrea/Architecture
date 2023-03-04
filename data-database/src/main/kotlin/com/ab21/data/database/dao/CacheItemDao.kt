@@ -13,7 +13,7 @@ interface CacheItemDao {
     suspend fun findAll(): List<CacheItem>
 
     @Query("SELECT * FROM cache_items WHERE `key`=:key LIMIT 1")
-    suspend fun findByKey(key: String): CacheItem
+    suspend fun findByKey(key: String): CacheItem?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: CacheItem): Long

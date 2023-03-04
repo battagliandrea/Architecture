@@ -6,6 +6,8 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.core)
+
     implementation(libs.arrow.core)
     implementation(libs.javax.inject)
     implementation(libs.kotlin)
