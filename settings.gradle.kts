@@ -27,11 +27,4 @@ enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 
-include(
-    ":core",
-    ":data",
-    ":data-database",
-    ":data-network",
-    ":data-network-env",
-    ":domain"
-)
+include()
