@@ -31,5 +31,7 @@ rootProject.name = "CleanArchitecture"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
+    ":core:dispatcher:dispatcher-api",
+    ":core:dispatcher:dispatcher-di",
     ":core:usecase:usecase-api",
 )
