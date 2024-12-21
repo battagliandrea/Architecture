@@ -41,4 +41,6 @@ include(
     ":core:ui:mvi",
     ":core:ui:navigation",
     ":core:usecase:usecase-api",
+    ":domain:models",
+    ":domain:usecases",
 )
