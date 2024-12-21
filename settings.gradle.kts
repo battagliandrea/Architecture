@@ -30,4 +30,6 @@ dependencyResolutionManagement {
 rootProject.name = "CleanArchitecture"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-include()
+include(
+    ":core:usecase:usecase-api",
+)
