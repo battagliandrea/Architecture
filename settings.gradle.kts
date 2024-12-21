@@ -33,5 +33,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     ":core:dispatcher:dispatcher-api",
     ":core:dispatcher:dispatcher-di",
+    ":core:network:network-api",
+    ":core:network:network-di",
+    ":core:network:network-test",
     ":core:usecase:usecase-api",
 )
