@@ -32,6 +32,7 @@ rootProject.name = "CleanArchitecture"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(
     "app",
+    ":common:theme",
     ":core:dispatcher:dispatcher-api",
     ":core:dispatcher:dispatcher-di",
     ":core:network:network-api",
@@ -42,5 +43,14 @@ include(
     ":core:ui:navigation",
     ":core:usecase:usecase-api",
     ":domain:models",
-    ":domain:usecases",
+    ":features:one:data:data-api",
+    ":features:one:data:data-di",
+    ":features:one:data:data-impl",
+    ":features:one:domain:usecases",
+    ":features:one:presentation",
+    ":features:two:data:data-api",
+    ":features:two:data:data-di",
+    ":features:two:data:data-impl",
+    ":features:two:domain:usecases",
+    ":features:two:presentation",
 )

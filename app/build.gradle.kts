@@ -35,7 +35,12 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
 
+    implementation(projects.common.theme)
     implementation(projects.core.dispatcher.dispatcherDi)
     implementation(projects.core.network.networkDi)
     implementation(projects.core.ui.navigation)
+    implementation(projects.features.one.data.dataDi)
+    implementation(projects.features.one.presentation)
+    implementation(projects.features.two.data.dataDi)
+    implementation(projects.features.two.presentation)
 }
