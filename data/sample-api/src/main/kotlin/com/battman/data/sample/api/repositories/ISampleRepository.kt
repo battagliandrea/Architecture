@@ -6,4 +6,6 @@ import com.battman.domain.models.SampleModel
 interface ISampleRepository {
 
     suspend fun getModels(): Either<Unit, List<SampleModel>>
+
+    suspend fun getModelById(id: String): Either<Unit, SampleModel>
 }

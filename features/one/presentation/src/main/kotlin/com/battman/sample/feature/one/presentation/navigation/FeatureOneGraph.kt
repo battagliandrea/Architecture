@@ -13,12 +13,12 @@ fun NavController.navigateToFeatureOne() {
 }
 
 fun NavGraphBuilder.featureOneScreen(
-    onNavigateToFeatureTwo: () -> Unit,
+    onNavigateToFeatureTwo: (modelId: String) -> Unit,
 ) {
     composable(route = FEATURE_ONE_ROUTE) {
         FeatureOneScreen(
             viewModel = hiltViewModel(),
-            navigateToFeatureTwo = { onNavigateToFeatureTwo() },
+            navigateToFeatureTwo = { onNavigateToFeatureTwo(it) },
         )
     }
 }

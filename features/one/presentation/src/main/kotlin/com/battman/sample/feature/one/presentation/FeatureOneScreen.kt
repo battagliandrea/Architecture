@@ -14,8 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.battman.domain.models.SampleModel
 import com.battman.sample.common.theme.SampleTheme
@@ -23,6 +21,7 @@ import com.battman.sample.common.theme.SampleTheme.colors
 import com.battman.sample.common.theme.SampleTheme.dimensions
 import com.battman.sample.common.theme.SampleTheme.typography
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiEvent.NavigateToFeatureTwo
+import com.battman.sample.feature.one.presentation.FeatureOneContract.UiIntent.OnItemClick
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiState
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiState.Failure
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiState.Loading
@@ -31,7 +30,7 @@ import com.battman.sample.feature.one.presentation.FeatureOneContract.UiState.Su
 @Composable
 internal fun FeatureOneScreen(
     viewModel: FeatureOneViewModel,
-    navigateToFeatureTwo: () -> Unit,
+    navigateToFeatureTwo: (modelId: String) -> Unit,
 ) {
     val (state, events, processIntent) = viewModel
 
@@ -39,7 +38,7 @@ internal fun FeatureOneScreen(
         events.collect { event ->
             when (event) {
                 is NavigateToFeatureTwo -> {
-                    navigateToFeatureTwo()
+                    navigateToFeatureTwo(event.modelId)
                 }
             }
         }
@@ -47,14 +46,15 @@ internal fun FeatureOneScreen(
 
     FeatureOneScreen(
         state = state,
+        onItemClick = { id -> processIntent(OnItemClick(id)) },
     )
 }
 
 @Composable
 internal fun FeatureOneScreen(
     state: UiState,
+    onItemClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
-    onClick: (id: String) -> Unit = {},
 ) {
     Scaffold(
         modifier = modifier,
@@ -74,7 +74,7 @@ internal fun FeatureOneScreen(
                         .fillMaxSize()
                         .padding(paddingValues),
                     models = state.models,
-                    onClick = onClick
+                    onItemClick = onItemClick
                 )
             }
             is Failure -> {
@@ -91,8 +91,8 @@ internal fun FeatureOneScreen(
 @Composable
 internal fun SampleModelLazyColumn(
     models: List<SampleModel>,
+    onItemClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
-    onClick: (id: String) -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier,
@@ -101,7 +101,7 @@ internal fun SampleModelLazyColumn(
         items(models.size) { index ->
             SampleModelItem(
                 model = models[index],
-                onClick = onClick,
+                onItemClick = onItemClick,
             )
         }
     }
@@ -110,14 +110,14 @@ internal fun SampleModelLazyColumn(
 @Composable
 internal fun SampleModelItem(
     model: SampleModel,
+    onItemClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
-    onClick: (id: String) -> Unit = {},
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(dimensions.spacingXS)
-            .clickable { onClick(model.id) },
+            .clickable { onItemClick(model.id) },
     ) {
         Text(
             text = model.name,
@@ -147,6 +147,7 @@ fun FeatureOneScreenPreview() {
     SampleTheme {
         FeatureOneScreen(
             state = Success(models),
+            onItemClick = {}
         )
     }
 }

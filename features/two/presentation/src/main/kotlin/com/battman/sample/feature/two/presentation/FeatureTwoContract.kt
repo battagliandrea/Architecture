@@ -1,27 +1,23 @@
-package com.battman.sample.feature.one.presentation
+package com.battman.sample.feature.two.presentation
 
 import com.battman.core.ui.mvi.MVIEvent
 import com.battman.core.ui.mvi.MVIIntent
 import com.battman.core.ui.mvi.MVIState
 import com.battman.domain.models.SampleModel
 
-internal sealed interface FeatureOneContract {
+internal sealed interface FeatureTwoContract {
 
-    sealed class UiIntent : MVIIntent {
-        data class OnItemClick(val id: String) : UiIntent()
-    }
+    sealed class UiIntent : MVIIntent
 
     sealed class UiState : MVIState {
         data object Loading : UiState()
         data class Success(
-            val models: List<SampleModel>,
+            val model: SampleModel,
         ) : UiState()
         data class Failure(
             val message: String,
         ) : UiState()
     }
 
-    sealed class UiEvent : MVIEvent {
-        data class NavigateToFeatureTwo(val modelId: String) : UiEvent()
-    }
+    sealed class UiEvent : MVIEvent
 }

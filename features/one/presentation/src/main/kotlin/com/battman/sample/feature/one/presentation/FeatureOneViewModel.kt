@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.battman.core.ui.mvi.MVIModel
 import com.battman.domain.usecases.GetModelsUseCase
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiEvent
+import com.battman.sample.feature.one.presentation.FeatureOneContract.UiEvent.NavigateToFeatureTwo
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiIntent
 import com.battman.sample.feature.one.presentation.FeatureOneContract.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,9 @@ internal class FeatureOneViewModel @Inject constructor(
 
     override fun createInitialState() = UiState.Loading
 
-    override fun handleIntent(intent: UiIntent) {}
+    override fun handleIntent(intent: UiIntent) = when(intent){
+        is UiIntent.OnItemClick -> onItemClick(intent.id)
+    }
 
     init {
         fetchModels()
@@ -37,5 +40,9 @@ internal class FeatureOneViewModel @Inject constructor(
                     },
                 )
         }
+    }
+
+    private fun onItemClick(id: String) {
+        sendEvent { NavigateToFeatureTwo(modelId = id) }
     }
 }

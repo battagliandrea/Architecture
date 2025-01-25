@@ -6,3 +6,10 @@ plugins {
 android {
     namespace = "com.battman.sample.feature.two.presentation"
 }
+
+dependencies {
+    implementation(projects.common.theme)
+    implementation(projects.core.ui.mvi)
+    implementation(projects.core.ui.navigation)
+    implementation(projects.domain.usecases)
+}
